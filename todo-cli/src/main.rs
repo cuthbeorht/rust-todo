@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 struct Todo {
     //use Rust to build in HashMap to store key/value pairs
-    map: HashMap<String, bool>
+    map: HashMap<String, bool>,
 }
 
 impl Todo {
@@ -12,11 +12,11 @@ impl Todo {
         self.map.insert(key, true);
     }
 
-    fn save(self) -> Result<(), Box< dyn std::error::Error>> {
+    fn save(self) -> Result<(), Box<dyn std::error::Error>> {
         let f = std::fs::OpenOptions::new()
-        .write(true)
-        .create(true)
-        .open("db.json")?;
+            .write(true)
+            .create(true)
+            .open("db.json")?;
 
         serde_json::to_writer_pretty(f, &self.map)?;
         Ok(())
@@ -28,9 +28,9 @@ impl Todo {
             .create(true)
             .read(true)
             .open("db.json")?;
-        
+
         match serde_json::from_reader(f) {
-            Ok(map) => Ok(Todo {map}),
+            Ok(map) => Ok(Todo { map }),
             Err(e) if e.is_eof() => Ok(Todo {
                 map: HashMap::new(),
             }),
